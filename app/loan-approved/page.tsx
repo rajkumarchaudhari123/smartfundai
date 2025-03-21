@@ -2,7 +2,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
+import { CardContent } from "@/components/ui/card"; // ✅ Removed Card
 import { Button } from "@/components/ui/button";
 import { CheckCircle } from "lucide-react";
 
