@@ -2,140 +2,376 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
+import { 
+  ArrowRight, 
+  CheckCircle, 
+  TrendingUp, 
+  Shield, 
+  Clock,
+  Users,
+  Star,
+  ChevronRight
+} from "lucide-react";
 
 export default function Home() {
-  const [index, setIndex] = useState(0);
-  const images = ["/slider6.jpg", "/slider7.jpg", "/slider4.jpg", "/slider5.jpg"];
+  const [currentSlide, setCurrentSlide] = useState(0);
+  
+  const slides = [
+    {
+      title: "Smart Loans, Powered by AI",
+      subtitle: "Get instant loan approvals with our advanced AI technology",
+      image: "/slider6.jpg",
+      color: "from-blue-600 to-purple-600"
+    },
+    {
+      title: "Fast & Secure Processing",
+      subtitle: "Your financial future starts here with 100% secure transactions",
+      image: "/slider7.jpg",
+      color: "from-purple-600 to-pink-600"
+    },
+    {
+      title: "Grow Your Business",
+      subtitle: "Flexible business loans tailored to your needs",
+      image: "/slider4.jpg",
+      color: "from-green-600 to-teal-600"
+    }
+  ];
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [images.length]);
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [slides.length]);
+
+  const services = [
+    {
+      title: "Personal Loans",
+      description: "Quick personal loans with minimal documentation",
+      icon: "💰",
+      stats: "10K+ Loans",
+      color: "bg-blue-500"
+    },
+    {
+      title: "Business Loans",
+      description: "Fuel your business growth with flexible financing",
+      icon: "📈",
+      stats: "5K+ Businesses",
+      color: "bg-purple-500"
+    },
+    {
+      title: "Instant Approval",
+      description: "AI-powered approval in under 10 minutes",
+      icon: "⚡",
+      stats: "99% Accuracy",
+      color: "bg-green-500"
+    },
+    {
+      title: "Secure Platform",
+      description: "Bank-grade security for your peace of mind",
+      icon: "🔒",
+      stats: "256-bit Encryption",
+      color: "bg-orange-500"
+    }
+  ];
+
+  const stats = [
+    { value: "50K+", label: "Loans Approved", icon: "✅" },
+    { value: "₹100Cr+", label: "Amount Disbursed", icon: "💰" },
+    { value: "98%", label: "Customer Satisfaction", icon: "⭐" },
+    { value: "24/7", label: "Customer Support", icon: "🕐" }
+  ];
+
+  const testimonials = [
+    {
+      name: "Rahul Sharma",
+      role: "Small Business Owner",
+      content: "The loan process was incredibly smooth. Got approval within hours!",
+      rating: 5,
+      image: "/testimonial1.jpg"
+    },
+    {
+      name: "Priya Patel",
+      role: "Freelancer",
+      content: "Best interest rates and amazing customer support. Highly recommended!",
+      rating: 5,
+      image: "/testimonial2.jpg"
+    }
+  ];
 
   return (
-    <div className="flex flex-col items-center flex-wrap justify-center min-h-screen bg-gradient-to-b from-blue-900 to-black text-white">
-      {/* Full-Width Slider Section */}
-      <div className="relative w-full h-[60vh] md:h-screen overflow-hidden">
-        <AnimatePresence>
-          <motion.div
+    <div className="min-h-screen bg-white">
+      {/* Hero Section with Slider */}
+      <section className="relative h-screen">
+        {slides.map((slide, index) => (
+          <div
             key={index}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8 }}
-            className="absolute inset-0 w-full h-full"
+            className={`absolute inset-0 transition-opacity duration-1000 ${
+              index === currentSlide ? "opacity-100" : "opacity-0"
+            }`}
           >
             <Image
-              src={images[index]}
-              alt="SmartFund AI Loan Services"
+              src={slide.image}
+              alt={slide.title}
               fill
-              sizes="100vw"
-              className="object-cover object-center"
+              className="object-cover"
+              priority
             />
-          </motion.div>
-        </AnimatePresence>
-      </div>
+            <div className="absolute inset-0 bg-black/50" />
+          </div>
+        ))}
 
-      {/* Hero Section */}
-      <header className="flex flex-col md:flex-row items-center py-20 px-6 max-w-5xl">
-        <div className="md:w-1/2 md:pr-8">
-          <h1 className="text-5xl font-bold">Welcome to SmartFund AI</h1>
-          <p className="mt-4 text-lg text-gray-300">
-            SmartFund AI revolutionizes the loan industry by leveraging cutting-edge artificial intelligence to provide seamless and fast financial assistance.
-          </p>
-          <Link href="/get-started" className="mt-6 inline-block bg-blue-600 px-6 py-3 rounded-md hover:bg-blue-700 transition-all">
-            Apply for a Loan
-          </Link>
+        <div className="relative h-full flex items-center">
+          <div className="container mx-auto px-6 lg:px-12">
+            <motion.div
+              key={currentSlide}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="max-w-3xl"
+            >
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+                {slides[currentSlide].title}
+              </h1>
+              <p className="text-lg md:text-xl text-gray-200 mb-8">
+                {slides[currentSlide].subtitle}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  href="/apply"
+                  className="group bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold transition flex items-center justify-center"
+                >
+                  Apply Now
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition" />
+                </Link>
+                <Link
+                  href="/learn-more"
+                  className="bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-lg font-semibold backdrop-blur-sm transition text-center"
+                >
+                  Learn More
+                </Link>
+              </div>
+            </motion.div>
+          </div>
         </div>
-        <div className="md:w-1/2 mt-6 md:mt-0">
-          <Image src="/slider8.jpg" alt="Welcome to SmartFund AI" width={500} height={500} className="rounded-lg shadow-lg" />
+
+        {/* Slider Dots */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentSlide(index)}
+              className={`w-2 h-2 rounded-full transition-all ${
+                index === currentSlide 
+                  ? "w-8 bg-white" 
+                  : "bg-white/50 hover:bg-white/80"
+              }`}
+            />
+          ))}
         </div>
-      </header>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {stats.map((stat, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="text-center"
+              >
+                <div className="text-3xl mb-2">{stat.icon}</div>
+                <div className="text-2xl md:text-3xl font-bold text-gray-900">{stat.value}</div>
+                <div className="text-sm text-gray-600">{stat.label}</div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Services Section */}
-      <section className="py-16 px-6 max-w-5xl">
-        <h2 className="text-4xl font-semibold text-center">Our Services</h2>
-        <div className="mt-6 grid md:grid-cols-2 gap-8">
-          {[{ title: "Personal Loans", desc: "Quick and easy personal loans with flexible repayment options.", img: "/slider1.jpg" },
-            { title: "Business Loans", desc: "Expand your business with hassle-free loans at low interest rates.", img: "/slider2.jpg" },
-            { title: "Instant Approval", desc: "AI-powered loan approval in minutes.", img: "/slider5.jpg" },
-            { title: "Secure Transactions", desc: "Your data and transactions are protected.", img: "/slider3.jpg" },
-          ].map((service, idx) => (
-            <div key={idx} className="flex items-center bg-gray-800 p-6 rounded-lg shadow-lg">
-              <Image src={service.img} alt={service.title} width={100} height={100} className="rounded-lg mr-4" />
-              <div>
-                <h3 className="text-2xl font-semibold">{service.title}</h3>
-                <p className="mt-2 text-gray-300">{service.desc}</p>
+      <section className="py-20">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Our Services
+            </h2>
+            <p className="text-gray-600">
+              We offer a range of financial solutions tailored to your needs
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {services.map((service, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ y: -5 }}
+                className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all border border-gray-100"
+              >
+                <div className={`w-12 h-12 ${service.color} rounded-lg flex items-center justify-center text-2xl mb-4`}>
+                  {service.icon}
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">{service.title}</h3>
+                <p className="text-gray-600 text-sm mb-4">{service.description}</p>
+                <div className="flex items-center text-sm text-blue-600">
+                  <span>{service.stats}</span>
+                  <ChevronRight className="w-4 h-4 ml-1" />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="flex flex-col lg:flex-row items-center gap-12">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              className="lg:w-1/2"
+            >
+              <div className="relative">
+                <div className="absolute -top-4 -left-4 w-24 h-24 bg-blue-500/10 rounded-full" />
+                <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-purple-500/10 rounded-full" />
+                <Image
+                  src="/slider7.jpg"
+                  alt="About Us"
+                  width={600}
+                  height={400}
+                  className="relative rounded-2xl shadow-2xl"
+                />
               </div>
-            </div>
-          ))}
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              className="lg:w-1/2"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Why Choose SmartFund AI?
+              </h2>
+              <p className="text-gray-600 mb-6">
+                We combine cutting-edge AI technology with personalized service to provide 
+                the best loan experience possible. Our platform makes borrowing simple, 
+                fast, and secure.
+              </p>
+
+              <div className="space-y-4">
+                {[
+                  "AI-powered instant approvals",
+                  "Competitive interest rates",
+                  "No hidden fees",
+                  "24/7 customer support"
+                ].map((feature, index) => (
+                  <div key={index} className="flex items-center gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-500" />
+                    <span className="text-gray-700">{feature}</span>
+                  </div>
+                ))}
+              </div>
+
+              <Link
+                href="/about"
+                className="inline-flex items-center text-blue-600 font-semibold mt-8 hover:text-blue-700"
+              >
+                Learn more about us
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Link>
+            </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-16 px-6 max-w-5xl">
-        <h2 className="text-4xl font-semibold text-center">What Our Customers Say</h2>
-        <div className="mt-6 grid md:grid-cols-2 gap-8">
-          {["testimonial1.jpg", "testimonial2.jpg"].map((img, idx) => (
-            <div key={idx} className="p-6 border rounded-lg shadow-lg bg-gray-800 text-center flex flex-col items-center">
-              <div className="w-40 h-40 overflow-hidden rounded-full">
-                <Image
-                  src={`/${img}`}
-                  alt="Customer Testimonial"
-                  width={160}
-                  height={160}
-                  className="object-cover w-full h-full"
-                />
-              </div>
-              <p className="text-gray-300 italic mt-4">
-  {"SmartFund AI made the loan process super easy! Highly recommended."}
-</p>
-
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* About Us Section */}
-      <section className="py-16 px-6 max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-center mb-8">About Us</h2>
-        <div className="flex flex-col md:flex-row items-center bg-gray-900 p-8 rounded-lg shadow-lg">
-          <div className="md:w-1/2 flex justify-center">
-            <Image
-              src="/slider7.jpg"
-              alt="About SmartFund AI"
-              width={400}
-              height={400}
-              className="rounded-lg shadow-lg object-cover"
-            />
-          </div>
-          <div className="md:w-1/2 mt-6 md:mt-0 md:ml-8">
-            <p className="text-lg text-gray-300 leading-relaxed">
-              <span className="text-blue-400 font-semibold">SmartFund AI</span> is dedicated to providing 
-              <span className="text-green-400"> innovative financial solutions</span> using artificial intelligence. 
-              Our goal is to <span className="text-yellow-400">simplify</span> and speed up loan approvals while ensuring 
-              <span className="text-red-400">security and transparency</span>.
+      <section className="py-20">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              What Our Customers Say
+            </h2>
+            <p className="text-gray-600">
+              Don't just take our word for it - hear from our happy customers
             </p>
-            <div className="mt-6">
-              <Link href="/contact">
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-md transition">
-                  Learn More
-                </button>
-              </Link>
-            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white rounded-xl p-6 shadow-lg border border-gray-100"
+              >
+                <div className="flex items-center gap-2 mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-4">"{testimonial.content}"</p>
+                <div className="flex items-center gap-3">
+                  <div className="relative w-12 h-12 rounded-full overflow-hidden bg-gray-200">
+                    <Image
+                      src={testimonial.image}
+                      alt={testimonial.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900">{testimonial.name}</h4>
+                    <p className="text-sm text-gray-600">{testimonial.role}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Terms & Conditions Section */}
-      <section className="py-16 px-6 max-w-5xl">
-        <h2 className="text-4xl font-semibold text-center">Terms & Conditions</h2>
-        <p className="mt-4 text-gray-300 text-center">
-          By using SmartFund AI, you agree to our terms and policies regarding loans, repayment, and data security. Please read our full terms before applying.
-        </p>
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600">
+        <div className="container mx-auto px-6 lg:px-12 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            Ready to Get Started?
+          </h2>
+          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            Join thousands of satisfied customers who have already transformed their financial future
+          </p>
+          <Link
+            href="/apply"
+            className="inline-flex bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition shadow-lg"
+          >
+            Apply for a Loan Now
+            <ArrowRight className="ml-2 w-5 h-5" />
+          </Link>
+        </div>
+      </section>
+
+      {/* Footer Note */}
+      <section className="py-8 bg-gray-50">
+        <div className="container mx-auto px-6 lg:px-12 text-center text-sm text-gray-600">
+          <p>
+            By using our services, you agree to our{" "}
+            <Link href="/terms" className="text-blue-600 hover:underline">
+              Terms & Conditions
+            </Link>{" "}
+            and{" "}
+            <Link href="/privacy" className="text-blue-600 hover:underline">
+              Privacy Policy
+            </Link>
+          </p>
+        </div>
       </section>
     </div>
   );
