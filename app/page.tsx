@@ -6,10 +6,6 @@ import { motion } from "framer-motion";
 import { 
   ArrowRight, 
   CheckCircle, 
-  TrendingUp, 
-  Shield, 
-  Clock,
-  Users,
   Star,
   ChevronRight
 } from "lucide-react";
@@ -300,7 +296,7 @@ export default function Home() {
               What Our Customers Say
             </h2>
             <p className="text-gray-600">
-              Don't just take our word for it - hear from our happy customers
+              Don&apos;t just take our word for it - hear from our happy customers
             </p>
           </div>
 
@@ -318,7 +314,7 @@ export default function Home() {
                     <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
-                <p className="text-gray-700 mb-4">"{testimonial.content}"</p>
+                <p className="text-gray-700 mb-4">&quot;{testimonial.content}&quot;</p>
                 <div className="flex items-center gap-3">
                   <div className="relative w-12 h-12 rounded-full overflow-hidden bg-gray-200">
                     <Image
